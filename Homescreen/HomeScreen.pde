@@ -1,181 +1,66 @@
 //Global Variables
-color black=0, resetWhite=255, pink=#fddde6, brown=#BC6F2F; //Not night mode (lots of Blue)
-color red=color(255, 0, 0), yellow=color(255, 255, 0); //Night Mode example colours, no BLUE
-Boolean turnOnYellow=false, turnOnPink =false, turnOnBrown=false;
-float rectWidth, rectHeight, ptDiameter;
-//Points are organized by row and actually ... hint-hint ... value
-int numberOfPoints = 17;
-float[] ptX = new float[numberOfPoints];
-float[] ptY = new float[numberOfPoints];
-int numberofButtons = 4; //Quit, Reset, 1 per square for minimum
-float[] buttonX = new float[numberofButtons];
-float[] buttonY = new float[numberofButtons];
-float[] buttonWidth = new float[numberofButtons];
-float[] buttonHeight = new float[numberofButtons];
-//
-void setup() 
-{
-  fullScreen(); //displayWidth, displayHeight
-  displayOrientation();
-  //
-  //Population
-  rectWidth = appWidth*1/3;
-  rectHeight = appHeight*1/3;
-  ptDiameter = appWidth*1/50;
-  //
-  ptX[1] = ptX[5] = ptX[9] = ptX[13] = appWidth*0/3;
-  ptX[2] = ptX[6] = ptX[10] = ptX[14] = appWidth*1/3;
-  ptX[3] = ptX[7] = ptX[11] = ptX[15] = appWidth*2/3;
-  ptX[4] = ptX[8] = ptX[12] = ptX[16] = appWidth*3/3;
-  //
-  ptY[1] = ptY[2] = ptY[3] = ptY[4] = appHeight*0/3;
-  ptY[5] = ptY[6] = ptY[7] = ptY[8] = appHeight*1/3;
-  ptY[9] = ptY[10] = ptY[11] = ptY[12] = appHeight*2/3;
-  ptY[13] = ptY[14] = ptY[15] = ptY[16] = appHeight*3/3;
-  //
-  buttonX[1] = appWidth*(1.0/3.0)*(1.0/3.0); //Section 1; subsection 2, numerator is 1
-  buttonY[1] = appHeight*(1.0/3.0)*(1.0/3.0); //Section 1; subsection 2, numerator is 1
-  buttonWidth[1] = appWidth*(1.0/3.0)*(1.0/3.0); //Width Denominator count = 9 ... 1/9
-  buttonHeight[1] = appHeight*(1.0/3.0)*(1.0/3.0); //Height Denominator count = 9 ... 1/9
-  //
-  buttonX[2] = appWidth*(3.0/6.0); //Section 2, subsection 2, numerator is 3
-  buttonY[2] = appHeight*(2.0/6.0); //Section 2, subsection 1, numerator is 2
-  buttonWidth[2] = appWidth*(1.0/3.0)*(1.0/2.0); //Denominator of 6
-  buttonHeight[2] = appHeight*(1.0/3.0)*(1.0/2.0); //Denominator of 6
-  //
-  buttonX[3] = appWidth*(11.0/15.0); //Section 3, subsection 2, Numerator is 11
-  buttonY[3] = appHeight*(13.0/15.0); //Section 3, subsection 4, Numerator is 14
-  buttonWidth[3] = appWidth*(1.0/3.0)*(1.0/5.0); //Denominator is 15
-  buttonHeight[3] = appHeight*(1.0/3.0)*(1.0/5.0); //Denominator is 15
-  //
-  printArray(buttonX);
-  printArray(buttonY);
-  printArray(buttonWidth);
-  printArray(buttonHeight);
-  //
-}//End setup
-//
+float ptDiameter, rectWidth, rectHeight;
+float pt1X, pt1Y, pt2X, pt2Y, pt3X, pt3Y, pt4X, pt4Y, pt5X, pt5Y, pt6X, pt6Y, pt7X, pt7Y, pt8X, pt8Y;
+float pt9X, pt9Y, pt10X, pt10Y, pt11X, pt11Y, pt12X, pt12Y, pt13X, pt13Y, pt14X, pt14Y, pt15X, pt15Y, pt16X, pt16Y;
+float button1X, button1Y, button1Width, button1Height, button2X, button2Y, button2Width, button2Height, button3X, button3Y, button3Width, button3Height, button4X, button4Y, button4Width, button4Height;
+float button5X, button5Y, button5Width, button5Height, button6X, button6Y, button6Width, button6Height, button8X, button8Y, button8Width, button8Height;
+float button7X, button7Y, button7Width, button7Height;
+float quitButtonX, quitButtonY, quitButtonWidth, quitButtonHeight, restartButtonX, restartButtonY, restartButtonWidth, restartButtonHeight;
+float text6X, text6Y, text6Width, text6Height, text1Y, text1Height, text8Y;
+float image1X, image1Y, image2X, image2Y, image3X, image3Y, image4X, image4Y, image5X, image5Y, image6X, image6Y, image7X, image7Y,image8X, image8Y, imageWidth, imageHeight;
+PImage pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8;
+PFont secFont, buttonFont;
+color white = #FFFFFF, black = #000000, teal = #008080, cadetblue = #5f9ea0, darkseagreen = #8fbc8f;
+Boolean sec6On=false, sec1On=false, sec9On=false, sec8On=false, sec4On=false, sec7On=false, sec3On=false, picOn=false;
+
+void setup() {
+  fullScreen(); //landscape
+  population();
+  secFont = createFont ("Macondo", 45);
+  buttonFont = createFont ("Macondo", 25);
+}
+
 void draw() {
-  //Rectangles must be 3 by 3
-  rect(ptX[1], ptY[1], rectWidth, rectHeight);
-  //
-  // Single Line IFs controled by order of lines
-  //if ( turnOnYellow==true ) fill(yellow);
-  //if ( turnOnPink==true ) fill(pink); //Overwrites the yellow
-  //if ( turnOnBrown=true ) fill(brown); //Overwrites the yellow & pink
-  //
-  //Example IF's that reverse order the Single Line IFs
-  if ( turnOnYellow==true ) {
-    fill(yellow);
-  } else if ( turnOnPink==true ) {
-    fill(pink);
-  } else if ( turnOnBrown==true ) {
-    fill(brown);
-  } else {
-  }
-  rect(ptX[2], ptY[2], rectWidth, rectHeight); //Buttons change the Colour of RECT(#2)
-  fill(resetWhite);
-  //
-  rect(ptX[3], ptY[3], rectWidth, rectHeight);
-  rect(ptX[5], ptY[5], rectWidth, rectHeight);
-  rect(ptX[6], ptY[6], rectWidth, rectHeight);
-  rect(ptX[7], ptY[7], rectWidth, rectHeight);
-  rect(ptX[9], ptY[9], rectWidth, rectHeight);
-  rect(ptX[10], ptY[10], rectWidth, rectHeight);
-  rect(ptX[11], ptY[11], rectWidth, rectHeight);
-  //
-  //Four different rect() for buttons
-  //HoverOver is Yellow
-  if ( mouseX>=buttonX[1] && mouseX<=buttonX[1]+buttonWidth[1] && mouseY>=buttonY[1] && mouseY<=buttonY[1]+buttonHeight[1] ) {
-    fill(yellow);
-    rect(buttonX[1], buttonY[1], buttonWidth[1], buttonHeight[1]); //same rect() as above
-  } else {
-    fill(black);
-    rect(buttonX[1], buttonY[1], buttonWidth[1], buttonHeight[1]); //same rect() as above
-  } //Button 1
-  if ( mouseX>=buttonX[2] && mouseX<=buttonX[2]+buttonWidth[2] && mouseY>=buttonY[2] && mouseY<=buttonY[2]+buttonHeight[2] ) {
-    fill(yellow);
-    rect(buttonX[2], buttonY[2], buttonWidth[2], buttonHeight[2]); //same rect() as above
-  } else {
-    fill(black);
-    rect(buttonX[2], buttonY[2], buttonWidth[2], buttonHeight[2]); //same rect() as above
-  } //Button 2
-  if ( mouseX>=buttonX[3] && mouseX<=buttonX[3]+buttonWidth[3] && mouseY>=buttonY[3] && mouseY<=buttonY[3]+buttonHeight[3] ) {
-    fill(yellow);
-    rect(buttonX[3], buttonY[3], buttonWidth[3], buttonHeight[3]);
-  } else {
-    fill(black);
-    rect(buttonX[3], buttonY[3], buttonWidth[3], buttonHeight[3]);
-  } //Button 3
-  if ( mouseX>=ptX[3] && mouseX<=ptX[3]+rectWidth && mouseY>=ptY[3] && mouseY<=ptY[3]+rectHeight ) {
-    fill(yellow);
-    rect(ptX[3], ptY[3], rectWidth, rectHeight);
-  } else {
-    fill(black);
-    rect(ptX[3], ptY[3], rectWidth, rectHeight);
-  } //Button 4 (Reset), the whole section
-  fill(resetWhite); //Best Practice
-  //
-  fill(black);
-  //Starting pts for rect() must be 1-9 & filled black
-  ellipse(ptX[1], ptY[1], ptDiameter, ptDiameter);
-  ellipse(ptX[2], ptY[2], ptDiameter, ptDiameter);
-  ellipse(ptX[3], ptY[3], ptDiameter, ptDiameter);
-  ellipse(ptX[5], ptY[5], ptDiameter, ptDiameter);
-  ellipse(ptX[6], ptY[6], ptDiameter, ptDiameter);
-  ellipse(ptX[7], ptY[7], ptDiameter, ptDiameter);
-  ellipse(ptX[9], ptY[9], ptDiameter, ptDiameter);
-  ellipse(ptX[10], ptY[10], ptDiameter, ptDiameter);
-  ellipse(ptX[11], ptY[11], ptDiameter, ptDiameter);
-  fill(resetWhite); //Best Practice
-  //
-  fill(red);
-  //Points for all other ellipses must be red
-  ellipse(ptX[4], ptY[4], ptDiameter, ptDiameter);
-  ellipse(ptX[8], ptY[8], ptDiameter, ptDiameter);
-  ellipse(ptX[12], ptY[12], ptDiameter, ptDiameter);
-  ellipse(ptX[13], ptY[13], ptDiameter, ptDiameter);
-  ellipse(ptX[14], ptY[14], ptDiameter, ptDiameter);
-  ellipse(ptX[15], ptY[15], ptDiameter, ptDiameter);
-  ellipse(ptX[16], ptY[16], ptDiameter, ptDiameter);
-  fill(resetWhite); //Best Practice
-}//End draw
-//
-void keyPressed() {
-}//End keyPressed
-//
+  rectangles();
+  sec5();
+  sec6();
+  sec1();
+  sec9();
+  sec8();
+  sec2();
+  sec4();
+  sec7();
+  sec3();
+  points();
+}
+
 void mousePressed() {
-  if (mouseX>=buttonX[1] && mouseX<=buttonX[1]+buttonWidth[1] && mouseY>=buttonY[1] && mouseY<=buttonY[1]+buttonHeight[1]) {
-    println("BTN 1 Activated");
-    if (turnOnYellow==true) { //Button will turn on and off
-      turnOnYellow=false;
+  if (mouseX>=button1X && mouseX<=button1X+button1Width && mouseY>=button1Y && mouseY<=button1Y+button1Height) sec6On = true;
+  if (mouseX>=button2X && mouseX<=button2X+button2Width && mouseY>=button2Y && mouseY<=button2Y+button2Height) sec1On = true;
+  if ( mouseX>=button3X && mouseX<=button3X+button3Width && mouseY>=button3Y && mouseY<=button3Y+button3Height) sec9On = true;
+  if ( mouseX>=button4X && mouseX<=button4X+button4Width && mouseY>=button4Y && mouseY<=button4Y+button4Height) sec8On = true;
+  if ( mouseX>=button5X && mouseX<=button5X+button5Width && mouseY>=button5Y && mouseY<=button5Y+button5Height) sec4On = true;
+  if ( mouseX>=button6X && mouseX<=button6X+button6Width && mouseY>=button6Y && mouseY<=button6Y+button6Height) sec7On = true;
+  if ( mouseX>=button7X && mouseX<=button7X+button7Width && mouseY>=button7Y && mouseY<=button7Y+button7Height) sec3On = true;
+  //
+  if (mouseX>=button8X && mouseX<=button8X+button8Width && mouseY>=button8Y && mouseY<=button8Y+button8Height) {
+    if (picOn == false) {
+      picOn = true;
     } else {
-      turnOnYellow=true;
+      if (picOn == true) {
+        picOn = false;
+      }
     }
   }
-  if (mouseX>=buttonX[2] && mouseX<=buttonX[2]+buttonWidth[2] && mouseY>=buttonY[2] && mouseY<=buttonY[2]+buttonHeight[2]) {
-    println("BTN 2 Activated");
-    if ( turnOnPink==true ) { //Button will turn on and off
-      turnOnPink=false;
-    } else {
-      turnOnPink=true;
-    }
+  //
+  if ( mouseX>=quitButtonX && mouseX<=quitButtonX+quitButtonWidth && mouseY>=quitButtonY && mouseY<=quitButtonY+quitButtonHeight) exit();
+  if ( mouseX>=restartButtonX && mouseX<=restartButtonX+restartButtonWidth && mouseY>=restartButtonY && mouseY<=restartButtonY+restartButtonHeight) {
+    sec6On = false;
+    sec1On = false;
+    sec9On = false;
+    sec8On = false;
+    sec4On = false;
+    sec7On = false;
+    sec3On =false;
   }
-  if (mouseX>=buttonX[3] && mouseX<=buttonX[3]+buttonWidth[3] && mouseY>=buttonY[3] && mouseY<=buttonY[3]+buttonHeight[3]) {
-    println("BTN 3 Activated");
-    if ( turnOnPink==true ) { //Button will turn on and off
-      turnOnPink=false;
-    } else {
-      turnOnPink=true;
-    }
-  }
-  //Reset Button
-  if (mouseX>=ptX[3] && mouseX<=ptX[3]+rectWidth && mouseY>=ptY[3] && mouseY<=ptY[3]+rectHeight) {
-    println("BTN 4 Activated");
-    turnOnYellow=false;
-    turnOnPink=false;
-    turnOnBrown=false;
-  }//End reset
-}//End mousePressed
-//
-//End MAIN Program
+}

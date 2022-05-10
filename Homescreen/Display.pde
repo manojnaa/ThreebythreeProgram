@@ -12,7 +12,7 @@ void displayOrientation() {
   println ( DO, orientation );
   //if ( orientation==p ) println(instruct); //Testing the orientation variable
   if (orientation==ls) {
-    println("Good to Go");
+    println("yo mom");
   } else { //Break our app if not landscape
     println(instruct);
     appWidth*=0; //appWidth = appWidth*0
